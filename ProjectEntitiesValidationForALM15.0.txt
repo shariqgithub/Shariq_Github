@@ -1,0 +1,95 @@
+Sub CommandButton1_Click()
+    Set Sheet = ThisWorkbook.Sheets("ALM15.0")
+    lr = Sheet.Cells(Rows.Count, "A").End(xlUp).Row
+    Dim ALM_URL
+    Dim API_Key
+    Dim API_secKey
+    ALM_URL = "https://almmufgunionbank.saas.microfocus.com/qcbin"
+    API_Key = "apikey-olbknlmiimkssqletjsc"
+    API_secKey = "dljgakbjonpmdhed"
+    Dim tdc
+
+    
+For i = 2 To lr
+    Set tdc = CreateObject("TDApiOle80.TDConnection")
+    tdc.InitConnectionWithApiKeyEx ALM_URL, API_Key, API_secKey
+    
+    'MsgBox "Authorised", vbOKOnly
+    
+    tdc.Connect Sheet.Cells(i, 1).Value, Sheet.Cells(i, 2).Value
+    
+    'MsgBox "Connected to Project"
+    
+    'migration_edi_1_5_db
+    
+        Query1 = "SELECT count(*) FROM BUG"
+    
+        Set com = tdc.Command
+    
+        com.CommandText = Query1
+    
+        Set RecSet = com.Execute
+    
+        Sheet.Cells(i, 3) = RecSet(0)
+                                    Query2 = "SELECT count(*) FROM TEST"
+                
+                                    Set com = tdc.Command
+                                
+                                    com.CommandText = Query2
+                                
+                                    Set RecSet = com.Execute
+                                
+                                    Sheet.Cells(i, 4) = RecSet(0)
+                        
+                                                            Query3 = "SELECT count(*) FROM REQ"
+                                        
+                                                            Set com = tdc.Command
+                                                        
+                                                            com.CommandText = Query3
+                                                        
+                                                            Set RecSet = com.Execute
+                                                        
+                                                            Sheet.Cells(i, 5) = RecSet(0)
+                                    
+Query4 = "SELECT count(*) FROM RELEASES"
+
+Set com = tdc.Command
+
+com.CommandText = Query4
+
+Set RecSet = com.Execute
+
+Sheet.Cells(i, 6) = RecSet(0)
+
+                    Query5 = "SELECT count(*) FROM TESTCYCL"
+                    
+                    Set com = tdc.Command
+                    
+                    com.CommandText = Query5
+                    
+                    Set RecSet = com.Execute
+                    
+                    Sheet.Cells(i, 7) = RecSet(0)
+                    
+                                        Query6 = "SELECT count(*) FROM RUN"
+                                        
+                                        Set com = tdc.Command
+                                        
+                                        com.CommandText = Query6
+                                        
+                                        Set RecSet = com.Execute
+                                        
+                                        Sheet.Cells(i, 8) = RecSet(0)
+        
+tdc.Disconnect
+tdc.logout
+tdc.releaseconnection
+Set tdc = Nothing
+         
+Next i
+    
+    
+MsgBox "Done"
+End Sub
+
+

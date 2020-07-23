@@ -1,0 +1,43 @@
+Sub CommandButton1_Click()
+Dim ALM_URL
+Dim API_Key
+Dim API_secKey
+ALM_URL = "https://almmufgunionbank.saas.microfocus.com/qcbin"
+API_Key = "apikey-olbknlmiimkssqletjsc"
+API_secKey = "dljgakbjonpmdhed"
+Dim tdc
+Set tdc = CreateObject("TDApiOle80.TDConnection")
+    tdc.InitConnectionWithApiKeyEx ALM_URL, API_Key, API_secKey
+    
+    MsgBox "Authorised", vbOKOnly
+    tdc.Connect "DRY_RUN_MUFG", "W2016_Jan_Jun"
+    
+    MsgBox "Connected to Project"
+    
+    
+tdc.Disconnect
+tdc.logout
+tdc.releaseconnection
+Set tdc = Nothing
+
+End Sub
+
+
+Dim QCConnection
+    
+    'Create QC Connection Object to connect to QC
+    Set QCConnection = CreateObject("TDApiOle80.TDConnection")
+
+    Dim apikey, apisecret, sDomain, sProject, almServer
+    apikey = "apikey-olbknlmiimkssqletjsc"
+    apisecret = "dljgakbjonpmdhed"
+    sDomain = "ADM_TRAINING"
+    sProject = "MAS_DEMO"
+    almServer = "https://almmufgunionbank.saas.microfocus.com/qcbin"
+    'QCConnection.Login sUserName, sPassword
+    QCConnection.InitConnectionWithApiKeyEx almServer, apikey, apisecret
+    QCConnection.Connect sDomain, sProject
+    
+    MsgBox "Done"
+QCConnection.Disconnect
+End Sub
